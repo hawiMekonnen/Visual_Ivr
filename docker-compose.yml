@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: ivr-db
+    environment:
+      POSTGRES_DB: visualivr
+      POSTGRES_USER: ivruser
+      POSTGRES_PASSWORD: ivrpassword123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ivruser -d visualivr"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./backend
+    container_name: ivr-api
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://ivruser:ivrpassword123@postgres:5432/visualivr
+      - SECRET_KEY=change-me-in-production-use-openssl-rand-hex-32
+      - AGENT_CONNECTOR=dev
+      - DEFAULT_AGENT_EXTENSION=8000
+    volumes:
+      - media_data:/app/media
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_URL=http://localhost:8000
+    container_name: ivr-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+  media_data:
