@@ -1,0 +1,98 @@
+{
+  "balance_recharge": {
+    "intent_name": "balance_recharge",
+    "reply_en": "You can check your balance by dialing *804# or recharge voucher cards directly via *805*PIN# or Telebirr.",
+    "reply_am": "ቀሪ ሂሳብዎን በ *804# ማየት ወይም የካርድ ቫውቸር በ *805*ሚስጥር_ቁጥር# ወይም በቴሌብር በቀላሉ መሙላት ይችላሉ።",
+    "action": {
+      "action_type": "navigate",
+      "target": "Billing & Payments",
+      "label": "Airtime & Balance Menu"
+    },
+    "quick_replies_en": ["Recharge Airtime", "Check Balance", "Speak with Agent"],
+    "quick_replies_am": ["ካርድ መሙላት", "ቀሪ ሂሳብ", "ከወኪል ጋር ይነጋገሩ"]
+  },
+  "internet_packages": {
+    "intent_name": "internet_packages",
+    "reply_en": "Choose from our daily, weekly, monthly, and unlimited 4G/5G data and voice bundles on the Packages menu or dial *999#.",
+    "reply_am": "የቀን፣ የሳምንት፣ የወር እና ያልተገደበ የ 4G/5G ዳታ እና የድምፅ ጥቅሎችን በፓኬጅ ምናሌ ወይም በ *999# መግዛት ይችላሉ።",
+    "action": {
+      "action_type": "navigate",
+      "target": "Internet Packages",
+      "label": "View Internet Packages"
+    },
+    "quick_replies_en": ["Monthly 4G Packs", "Unlimited Data", "Voice Bundles"],
+    "quick_replies_am": ["ወርሃዊ 4G ዳታ", "ያልተገደበ ኢንተርኔት", "የድምፅ ጥቅሎች"]
+  },
+  "telebirr_services": {
+    "intent_name": "telebirr_services",
+    "reply_en": "Send money, buy airtime, pay utility bills (water/electricity), and manage your account with Telebirr via *127# or the mobile app.",
+    "reply_am": "በቴሌብር ገንዘብ ለመላክ፣ ካርድ ለመግዛት፣ የመብራትና ውሃ ክፍያዎችን ለመክፈል በ *127# ወይም በቴሌብር መተግበሪያ መጠቀም ይችላሉ።",
+    "action": {
+      "action_type": "navigate",
+      "target": "Billing & Payments",
+      "label": "Telebirr & Payments"
+    },
+    "quick_replies_en": ["Forgot Telebirr PIN", "Pay Utility Bill", "Transfer Money"],
+    "quick_replies_am": ["የቴሌብር ፒን ቀይር", "የመብራት/ውሃ ክፍያ", "ገንዘብ ላክ"]
+  },
+  "sim_puk_services": {
+    "intent_name": "sim_puk_services",
+    "reply_en": "To retrieve your PUK code or unblock your SIM, check your SIM jacket or visit any service center with your valid ID for SIM swap/eSIM.",
+    "reply_am": "የ PUK ቁጥርዎን ለማግኘት የሲም ካርድ ፓኬትዎን ይመልከቱ ወይም ሲም ለማስቀየር/eSIM ለመውሰድ የታደሰ መታወቂያ በመያዝ ቅርንጫፍ ይጎብኙ።",
+    "action": {
+      "action_type": "info",
+      "target": "PUK & SIM Service Guide",
+      "label": "View SIM & PUK Guide"
+    },
+    "quick_replies_en": ["SIM Replacement", "eSIM Activation", "Speak with Agent"],
+    "quick_replies_am": ["ሲም ካርድ መቀየር", "eSIM አገልግሎት", "ከወኪል ጋር ይነጋገሩ"]
+  },
+  "broadband_fiber": {
+    "intent_name": "broadband_fiber",
+    "reply_en": "For home fiber broadband subscriptions, speed upgrades, or router connection issues, explore our broadband support options.",
+    "reply_am": "ለቤት ፋይበር ኢንተርኔት ክፍያ፣ ፍጥነት ለመጨመር ወይም የራውተር ግንኙነት ችግር የቴክኒክ ድጋፍ ክፍላችንን ይመልከቱ።",
+    "action": {
+      "action_type": "navigate",
+      "target": "Technical Support",
+      "label": "Broadband Support"
+    },
+    "quick_replies_en": ["Fiber Outage Report", "Pay Broadband", "Request Callback"],
+    "quick_replies_am": ["የፋይበር ብልሽት ሪፖርት", "የቤት ክፍያ", "መልሶ መደወል ይጠይቁ"]
+  },
+  "network_complaint": {
+    "intent_name": "network_complaint",
+    "reply_en": "We apologize for the network disruption. Please toggle Airplane mode on and off, or connect directly with our network support team.",
+    "reply_am": "ኔትወርክ በመቆራረጡ እናዝናለን። እባክዎ የስልክዎን ኤርፕሌን ሞድ አብርተው ያጥፉ ወይም ወደ ቴክኒክ ድጋፍ ወኪላችን ይደውሉ።",
+    "action": {
+      "action_type": "connect_agent",
+      "target": "1002",
+      "label": "Speak with Support Agent"
+    },
+    "quick_replies_en": ["Report Outage", "Call Network Agent", "Request Callback"],
+    "quick_replies_am": ["ችግር ሪፖርት አድርግ", "ለወኪል ደውል", "መልሶ መደወል"]
+  },
+  "agent_transfer": {
+    "intent_name": "agent_transfer",
+    "reply_en": "Transferring you directly to a customer service representative.",
+    "reply_am": "ወደ ደንበኞች አገልግሎት ወኪል በቀጥታ እያስተላለፍኩዎት ነው።",
+    "action": {
+      "action_type": "connect_agent",
+      "target": "1002",
+      "label": "Speak with Live Agent"
+    },
+    "quick_replies_en": ["Call Live Agent", "Request Callback", "Main Menu"],
+    "quick_replies_am": ["ለወኪል ይደውሉ", "መልሶ መደወል ይጠይቁ", "ዋና ምናሌ"]
+  },
+  "shops_locations": {
+    "intent_name": "shops_locations",
+    "reply_en": "Our service centers are open Monday to Saturday from 8:00 AM to 6:00 PM. Digital IVR & Telebirr services operate 24/7.",
+    "reply_am": "የአገልግሎት መስጫ ማዕከላችን ከሰኞ እስከ ቅዳሜ ከጠዋቱ 2:00 እስከ ማታ 12:00 ክፍት ናቸው። ዲጂታል IVR አገልግሎት 24/7 ይሰራል።",
+    "action": {
+      "action_type": "info",
+      "target": "Mon-Sat 8am-6pm | Nationwide Service Centers",
+      "label": "View Hours & Centers"
+    },
+    "quick_replies_en": ["Nearest Service Center", "Main Menu", "Speak with Agent"],
+    "quick_replies_am": ["የቅርንጫፍ አድራሻ", "ዋና ምናሌ", "ከወኪል ጋር ይነጋገሩ"]
+  }
+}

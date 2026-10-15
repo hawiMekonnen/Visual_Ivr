@@ -43,13 +43,13 @@ class ContactChannel(BaseModel):
 def get_status_banner():
     """Returns the current active system status notification or maintenance banner."""
     return {
-        "active": True,
+        "active": False,
         "type": "maintenance",
         "message": {
-            "en": "Scheduled system maintenance will occur this Sunday from 2:00 AM to 4:00 AM EST. Some digital services may experience brief interruptions.",
-            "am": "የታቀደ የነፃ ስርዓት ጥገና በዚህ እሁድ ከጠዋቱ 8:00 እስከ 10:00 ሰዓት (በኢትዮጵያ አቆጣጠር) ይከናወናል ። አንዳንድ ዲጂታል አገልግሎቶች ለአጭር ጊዜ ሊቋረጡ ይችላሉ።"
+            "en": "",
+            "am": ""
         },
-        "expires_at": "2026-08-23T09:00:00Z"
+        "expires_at": None
     }
 
 @router.get("/faq", response_model=List[FaqEntry])

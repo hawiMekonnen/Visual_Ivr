@@ -1,0 +1,43 @@
+﻿# Environment & Secrets
+.env
+*.env
+backend/.env
+frontend/.env
+*.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.pytest_cache/
+*.log
+backend/client_debug.log
+
+# Databases
+backend/dev.db
+backend/test.db
+*.db
+*.sqlite3
+
+# Media cache
+backend/media/tts_cache/*.mp3
+
+# Node / Frontend
+node_modules/
+dist/
+dist-ssr/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+
+# IDE & OS
+.vscode/
+.idea/
+*.code-workspace
+.DS_Store
+Thumbs.db

@@ -1,11 +1,18 @@
-from functools import lru_cache
+from pathlib import Path
 from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+ENV_PATH = BASE_DIR / ".env"
+
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=str(ENV_PATH) if ENV_PATH.exists() else ".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
 
     # Database
     DATABASE_URL: str = "sqlite:///./dev.db"
@@ -37,7 +44,27 @@ class Settings(BaseSettings):
     APP_NAME: str = "Visual IVR"
     DEBUG: bool = False
 
+    # AI Translation (Google Gemini)
+    GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-3.5-flash-lite"
 
-@lru_cache
+    # Google Cloud Text-to-Speech (high-quality Amharic Wavenet voice)
+    GOOGLE_TTS_API_KEY: str = ""
+    # Amharic female: am-ET-Wavenet-A  |  male: am-ET-Wavenet-B
+    GOOGLE_TTS_VOICE: str = "am-ET-Wavenet-A"
+
+    # Frontend base URL for SMS links
+    FRONTEND_BASE_URL: str = "http://192.168.1.5:5173"
+
+    # Telegram Bot Notification (100% Free Instant Mobile Delivery)
+    TELEGRAM_BOT_TOKEN: str = ""
+    TELEGRAM_CHAT_ID: str = ""
+
+    # Android Local SMS Gateway (Use your own SIM card)
+    ANDROID_GATEWAY_URL: str = ""
+    ANDROID_GATEWAY_TOKEN: str = ""
+    TEST_DESTINATION_PHONE: str = ""
+
+
 def get_settings() -> Settings:
     return Settings()

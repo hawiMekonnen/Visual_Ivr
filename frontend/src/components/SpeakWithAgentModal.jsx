@@ -80,7 +80,7 @@ const CONTENT = {
     title:          "Speak with an Agent",
     subtitle:       "We'll connect you to a live support agent right now.",
     ttsText:        "You are being connected to a live support agent. Please hold the line.",
-    ctaIdle:        "Tap to Call",
+    ctaIdle:        "Call Agent",
     replay:         "Replay voice message",
     close:          "Cancel",
     hint:           "Available 24/7 · Average wait: 2 min",
@@ -88,7 +88,7 @@ const CONTENT = {
     labelMic:       "Requesting microphone…",
     labelConnecting:"Connecting to server…",
     labelRegistering:"Registering…",
-    labelRinging:   "Ringing…",
+    labelRinging:   "Ringing agent…",
     labelActive:    "Connected",
     labelEnding:    "Ending call…",
     labelEnded:     "Call ended",
@@ -97,13 +97,13 @@ const CONTENT = {
     unmute:         "Unmute",
     hangUp:         "End Call",
     tryAgain:       "Try Again",
-    targetExt:      `Calling ext. ${SIP_CONFIG.targetExtension}`,
+    targetExt:      "Connecting to Agent…",
   },
   am: {
     title:          "ከወኪል ጋር ይነጋገሩ",
     subtitle:       "አሁን ወዲያው ከቀጥታ አጋዥ ወኪል ጋር እናገናኝዎታለን።",
     ttsText:        "ወደ ቀጥታ አጋዥ ወኪል በመዘዋወር ላይ ነዎት። እባክዎ ስልኩን ይያዙ።",
-    ctaIdle:        "ለመደወል ይጫኑ",
+    ctaIdle:        "ለወኪል ይደውሉ",
     replay:         "የድምፅ መልዕክቱን እንደገና ያዳምጡ",
     close:          "ይቅር",
     hint:           "24/7 ክፍት ነው · አማካኝ የጥበቃ ጊዜ: 2 ደቂቃ",
@@ -111,7 +111,7 @@ const CONTENT = {
     labelMic:       "ማይክሮፎን እየጠየቁ…",
     labelConnecting:"ወደ አገልጋይ በማገናኘት ላይ…",
     labelRegistering:"እየተመዘገቡ…",
-    labelRinging:   "እየደወሉ…",
+    labelRinging:   "ለወኪል እየደወሉ…",
     labelActive:    "ተገናኝቷል",
     labelEnding:    "ጥሪ እያቆሙ…",
     labelEnded:     "ጥሪ ተጠናቋል",
@@ -120,7 +120,7 @@ const CONTENT = {
     unmute:         "ድምፅ ክፈት",
     hangUp:         "ጥሪ ጨርስ",
     tryAgain:       "እንደገና ሞክር",
-    targetExt:      `ቁ. ${SIP_CONFIG.targetExtension} ይደወላል`,
+    targetExt:      "ከወኪል ጋር በማገናኘት ላይ…",
   },
 };
 
@@ -388,12 +388,12 @@ const SpeakWithAgentModal = ({ onClose }) => {
           <button className="speak-cancel-btn" onClick={onClose}>{c.close}</button>
         )}
 
-        {/* ── Error: try again or close ── */}
+        {/* ── Error: try again or cancel ── */}
         {isError && (
-          <div style={{ display: "flex", gap: "10px", marginTop: "4px" }}>
+          <div style={{ display: "flex", gap: "10px", marginTop: "12px" }}>
             <button
               className="speak-call-btn"
-              style={{ flex: 1 }}
+              style={{ flex: 1, background: "#334155" }}
               onClick={() => { reset(); startCall(); }}
               aria-label={c.tryAgain}
             >

@@ -291,16 +291,6 @@ def get_analytics(
         sel_count = count_map.get(node.id, 0)
         drop_count = drop_off_map.get(node.id, 0)
         rate = (drop_count / sel_count) if sel_count else 0.0
-        node_analytics.append(
-            NodeAnalytics(
-                node_id=node.id,
-                label=node.label("en"),
-                selection_count=sel_count,
-                drop_off_count=drop_count,
-                drop_off_rate=round(rate, 4),
-            )
-        )
-
     node_analytics.sort(key=lambda x: x.selection_count, reverse=True)
 
     return AnalyticsSummary(
@@ -309,3 +299,29 @@ def get_analytics(
         avg_session_depth=round(avg_session_depth, 2),
         nodes=node_analytics,
     )
+
+
+# ---------------------------------------------------------------------------
+# Decision Flow Canvas (Avaya-Style Flow Graph)
+# ---------------------------------------------------------------------------
+from app.services.flow_engine import get_flows_config, save_flows_config
+
+
+@router.get("/flows", summary="Get Telecom Decision Tree Flows Graph")
+def get_flows(
+    _: AdminUser = Depends(get_current_admin),
+):
+    """Returns the decision tree flow graph specification for visual editor."""
+    return get_flows_config()
+
+
+@router.post("/flows", summary="Update Telecom Decision Tree Flows Graph")
+def update_flows(
+    payload: dict,
+    _: AdminUser = Depends(get_current_admin),
+):
+    """Updates and persists the decision tree flows configuration."""
+    success = save_flows_config(payload)
+    if not success:
+        raise HTTPException(status_code=500, detail="Failed to save flows configuration.")
+    return {"status": "success", "message": "Decision flows updated successfully"}

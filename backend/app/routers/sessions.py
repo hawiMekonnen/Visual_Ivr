@@ -1,8 +1,10 @@
 import structlog
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.agents.registry import get_connector
+from app.config import get_settings
 from app.database import get_db
 from app.models import MenuNode, SelectionEvent, Session as SessionModel
 from app.routers.menu import _serialize_node
@@ -17,6 +19,58 @@ from app.schemas import (
 
 router = APIRouter(prefix="/api/sessions", tags=["sessions"])
 log = structlog.get_logger(__name__)
+
+
+class TelephonyTriggerRequest(BaseModel):
+    caller_phone: str
+    destination_number: str | None = None
+    call_uuid: str | None = None
+    base_url: str | None = None
+
+
+from app.services.sms_service import send_sms_notification
+
+
+@router.post("/trigger-call-ivr", summary="Webhook for FusionPBX to trigger Visual IVR session")
+@router.post("/trigger", summary="Alias for triggering Visual IVR session from PBX call")
+async def trigger_call_ivr(body: TelephonyTriggerRequest, request: Request, db: Session = Depends(get_db)):
+    """
+    Webhook called by FusionPBX / FreeSWITCH when an incoming caller hits the triggering point.
+    Creates a call-linked session, triggers SMS dispatch, and returns the generated SMS link.
+    """
+    session = SessionModel(
+        source="call_linked",
+        caller_phone=body.caller_phone,
+        call_session_token=body.call_uuid or f"call_{body.caller_phone}",
+    )
+    db.add(session)
+    db.commit()
+    db.refresh(session)
+
+    # Determine base URL for frontend
+    settings = get_settings()
+    frontend_base = body.base_url or (request.headers.get("origin") if request.headers.get("origin") and "localhost" not in request.headers.get("origin") else settings.FRONTEND_BASE_URL)
+    ivr_url = f"{frontend_base}/?session_id={session.id}"
+    sms_text = f"Visual IVR: Thank you for calling. Access our Visual IVR menu on your phone here: {ivr_url}"
+
+    log.info(
+        "telephony_ivr_triggered",
+        caller_phone=body.caller_phone,
+        session_id=session.id,
+        ivr_url=ivr_url,
+    )
+
+    # Dispatch SMS to the caller's phone number
+    sms_result = await send_sms_notification(to_phone=body.caller_phone, message_text=sms_text)
+
+    return {
+        "success": True,
+        "session_id": session.id,
+        "caller_phone": body.caller_phone,
+        "ivr_url": ivr_url,
+        "sms_text": sms_text,
+        "sms_dispatch": sms_result,
+    }
 
 
 @router.post("", response_model=SessionOut, status_code=status.HTTP_201_CREATED)

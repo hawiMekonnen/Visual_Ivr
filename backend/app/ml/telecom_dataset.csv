@@ -1,0 +1,171 @@
+text,intent,lang
+how can I check my balance,balance_recharge,en
+what is my remaining airtime,balance_recharge,en
+how to recharge scratch card,balance_recharge,en
+recharge phone balance,balance_recharge,en
+my card refill is not working,balance_recharge,en
+how do I dial 804 to check balance,balance_recharge,en
+send airtime to another phone number,balance_recharge,en
+how much credit do I have left,balance_recharge,en
+top up my mobile account,balance_recharge,en
+how to load mobile voucher card,balance_recharge,en
+airtime balance inquiry,balance_recharge,en
+transfer mobile balance,balance_recharge,en
+credit recharge failed,balance_recharge,en
+ቀሪ ሂሳቤን ማየት እፈልጋለሁ,balance_recharge,am
+የስልኬ ቀሪ ሂሳብ ስንት ነው,balance_recharge,am
+ካርድ እንዴት ልሙላ,balance_recharge,am
+የሞላሁት የሞባይል ካርድ አልገባልኝም,balance_recharge,am
+የስልክ ካርድ መሙላት እፈልጋለሁ,balance_recharge,am
+ቀሪ ሂሳብ ማጣሪያ 804,balance_recharge,am
+ለሌላ ስልክ ካርድ ማስተላለፍ,balance_recharge,am
+ሂሳቤን ማወቅ እፈልጋለሁ,balance_recharge,am
+የካርድ ቫውቸር ቁጥር ማስገቢያ,balance_recharge,am
+የሞባይል ካርድ መሙላት አልቻለም,balance_recharge,am
+ካርድ መሙያ መንገድ,balance_recharge,am
+የቀረኝን ገንዘብ እንዴት አያለሁ,balance_recharge,am
+how to buy internet package,internet_packages,en
+buy monthly 4G data,internet_packages,en
+unlimited internet package price,internet_packages,en
+what are the voice package options,internet_packages,en
+cheap data bundle offers,internet_packages,en
+how to buy daily internet package,internet_packages,en
+check remaining internet data volume,internet_packages,en
+best 5G internet pack,internet_packages,en
+weekend internet package,internet_packages,en
+night time internet bundle,internet_packages,en
+how to subscribe to monthly data,internet_packages,en
+buy voice minute package,internet_packages,en
+data pack activation code,internet_packages,en
+የኢንተርኔት ፓኬጅ መግዛት እፈልጋለሁ,internet_packages,am
+ወርሃዊ የዳታ ፓኬጅ ዋጋ ስንት ነው,internet_packages,am
+ያልተገደበ የኢንተርኔት ፓኬጅ,internet_packages,am
+የድምፅ እና የደቂቃ ፓኬጅ አማራጮች,internet_packages,am
+የቀረኝ የዳታ መጠን ስንት ነው,internet_packages,am
+የ4G ኢንተርኔት ፓኬጅ እንዴት እገዛለሁ,internet_packages,am
+የሌሊት ኢንተርኔት ፓኬጅ,internet_packages,am
+የሳምንት ዳታ ጥቅል,internet_packages,am
+ኢንተርኔት ፓኬጅ ለመግዛት,internet_packages,am
+ቅናሽ የዳታ ፓኬጆች አሉ,internet_packages,am
+የኢንተርኔት ጥቅል መምረጫ,internet_packages,am
+ዳታዬ አለቀ ፓኬጅ መግዛት እፈልጋለሁ,internet_packages,am
+how to send money on telebirr,telebirr_services,en
+forgot my telebirr PIN code,telebirr_services,en
+how to reset telebirr password,telebirr_services,en
+telebirr transaction failed but deducted money,telebirr_services,en
+pay electricity and water bill with telebirr,telebirr_services,en
+buy airtime using telebirr,telebirr_services,en
+telebirr mobile app is not opening,telebirr_services,en
+how to deposit money to telebirr,telebirr_services,en
+telebirr account registration,telebirr_services,en
+send money to bank from telebirr,telebirr_services,en
+telebirr USSD code *127#,telebirr_services,en
+telebirr balance check,telebirr_services,en
+በቴሌብር ገንዘብ መላክ እፈልጋለሁ,telebirr_services,am
+የቴሌብር ሚስጥር ቁጥር ረሳሁ,telebirr_services,am
+የቴሌብር ፒን ቁጥር እንዴት ይቀየራል,telebirr_services,am
+በቴሌብር የመብራት እና የውሃ ክፍያ መክፈል,telebirr_services,am
+በቴሌብር ካርድ መግዛት እፈልጋለሁ,telebirr_services,am
+የቴሌብር ገንዘብ ተቀንሶ አልደረሰም,telebirr_services,am
+ቴሌብር መተግበሪያ አልሰራም አለ,telebirr_services,am
+ወደ ባንክ በቴሌብር ገንዘብ ማስተላለፍ,telebirr_services,am
+ቴሌብር አካውንት መክፈት,telebirr_services,am
+ቴሌብር ሚስጥር ቃል መቀየሪያ,telebirr_services,am
+የቴሌብር ቀሪ ሂሳብ ማየት,telebirr_services,am
+*127# ቴሌብር እንዴት ይሰራል,telebirr_services,am
+my sim card is blocked,sim_puk_services,en
+I need my PUK code to unblock sim,sim_puk_services,en
+where can I find my PUK number,sim_puk_services,en
+how to replace a lost or stolen sim card,sim_puk_services,en
+how to get an eSIM on my phone,sim_puk_services,en
+convert physical sim to eSIM,sim_puk_services,en
+sim card registration and KYC requirements,sim_puk_services,en
+sim locked enter PUK message,sim_puk_services,en
+how to activate new sim card,sim_puk_services,en
+sim card swap service,sim_puk_services,en
+ሲም ካርዴ ተቆልፏል PUK ቁጥር እፈልጋለሁ,sim_puk_services,am
+PUK ቁጥሬን የት አገኘዋለሁ,sim_puk_services,am
+የጠፋብኝን ሲም ካርድ ለማስቀየር ምን ያስፈልጋል,sim_puk_services,am
+eSIM እንዴት በስልኬ ላይ ማስገባት እችላለሁ,sim_puk_services,am
+ሲም ካርድ መመዝገብ እፈልጋለሁ,sim_puk_services,am
+የተዘጋ ሲም ካርድ ለማስከፈት,sim_puk_services,am
+ሲም ካርድ ተበላሽቶብኛል አዲስ ማውጣት,sim_puk_services,am
+የሲም ካርድ PUK ማግኛ ዘዴ,sim_puk_services,am
+ሲም ካርድ መቀየር,sim_puk_services,am
+አዲስ ሲም ካርድ ማግበር,sim_puk_services,am
+fiber internet is disconnected at my home,broadband_fiber,en
+my home wifi is not working,broadband_fiber,en
+how much is the monthly fiber internet subscription,broadband_fiber,en
+apply for a new fiber to home connection,broadband_fiber,en
+broadband wifi router has a red blinking light,broadband_fiber,en
+very slow fiber broadband speed,broadband_fiber,en
+how to pay home fiber bill,broadband_fiber,en
+broadband technical support for router,broadband_fiber,en
+relocate fiber connection to new house,broadband_fiber,en
+fiber optic cable damaged,broadband_fiber,en
+የፋይበር ኢንተርኔት ተቋርጦብኛል,broadband_fiber,am
+የቤት ዋይፋይ አልሰራም አለኝ,broadband_fiber,am
+አዲስ የፋይበር ኢንተርኔት ለማስገባት ማመልከት,broadband_fiber,am
+ወርሃዊ የፋይበር ዋጋ እና ፍጥነት ስንት ነው,broadband_fiber,am
+የዋይፋይ ራውተር ቀይ መብራት አብርቷል,broadband_fiber,am
+የፋይበር ኢንተርኔት ፍጥነት በጣም ቀንሷል,broadband_fiber,am
+የቤት ኢንተርኔት ክፍያ መፈጸም,broadband_fiber,am
+የፋይበር ገመድ ተበጥሷል,broadband_fiber,am
+የዋይፋይ ራውተር ማስተካከል,broadband_fiber,am
+የቤት ኢንተርኔት ማቋረጥ ወይም ማዛወር,broadband_fiber,am
+no mobile network signal in my area,network_complaint,en
+there is no service on my phone,network_complaint,en
+calls are dropping constantly today,network_complaint,en
+mobile data network is extremely slow,network_complaint,en
+poor signal and no 4G coverage,network_complaint,en
+cannot make or receive phone calls,network_complaint,en
+network outage in my town,network_complaint,en
+emergency calls only showing on screen,network_complaint,en
+bad voice call quality and echoing,network_complaint,en
+report a network coverage issue,network_complaint,en
+በአካባቢዬ ምንም ኔትወርክ የለም,network_complaint,am
+የኔትወርክ ሲግናል በጣም ደካማ ነው,network_complaint,am
+ጥሪ ይቋረጣል ስልክ መደወል አልቻልኩም,network_complaint,am
+ኢንተርኔት በጣም ቀርፋፋ ነው ዛሬ,network_complaint,am
+ኔትወርክ ተቋርጧል የአደጋ ጊዜ ጥሪ ብቻ ይላል,network_complaint,am
+የኔትወርክ ችግር ሪፖርት ማድረግ እፈልጋለሁ,network_complaint,am
+ድምፅ አይሰማም ጥሪ ላይ,network_complaint,am
+4G ሲግናል ጠፍቷል,network_complaint,am
+የሞባይል ኔትወርክ የለም,network_complaint,am
+ስልክ አይደውልም አይገባምም,network_complaint,am
+I want to speak to a live customer service agent,agent_transfer,en
+transfer me to a human representative,agent_transfer,en
+call 994 customer care,agent_transfer,en
+connect me with a real person right now,agent_transfer,en
+talk to support agent,agent_transfer,en
+I need help from a human operator,agent_transfer,en
+escalate to customer care department,agent_transfer,en
+can I talk to someone,agent_transfer,en
+customer service phone call,agent_transfer,en
+speak with call center agent,agent_transfer,en
+ከደንበኞች አገልግሎት ወኪል ጋር ማውራት እፈልጋለሁ,agent_transfer,am
+ወደ 994 ወኪል አስተላልፈኝ,agent_transfer,am
+ከሰው ሰራተኛ ጋር አገናኙኝ,agent_transfer,am
+የደንበኞች ድጋፍ ሰጪ ማነጋገር,agent_transfer,am
+ሰው አናግሩኝ ረዳት ሳይሆን,agent_transfer,am
+ከአገልግሎት ባለሙያ ጋር መነጋገር እፈልጋለሁ,agent_transfer,am
+ወደ ኦፕሬተር አስተላልፈኝ,agent_transfer,am
+ለወኪል ደውሉልኝ,agent_transfer,am
+ከድጋፍ ሰጪ ጋር አገናኙኝ,agent_transfer,am
+ከሰራተኛ ጋር ማውራት,agent_transfer,am
+where is the nearest telecom service center shop,shops_locations,en
+what are your office working hours on Saturday,shops_locations,en
+is customer service center open today,shops_locations,en
+where is the main branch located,shops_locations,en
+service center closing time,shops_locations,en
+telecom branch address and phone number,shops_locations,en
+find a branch near me,shops_locations,en
+working schedule for branch offices,shops_locations,en
+የአገልግሎት መስጫ ማዕከል አድራሻ የት ነው,shops_locations,am
+በአቅራቢያዬ ያለ የቴሌ ቅርንጫፍ የት ይገኛል,shops_locations,am
+ቅዳሜ እና እሁድ ክፍት ናችሁ,shops_locations,am
+የስራ ሰዓት ከስንት እስከ ስንት ነው,shops_locations,am
+ዋናው ቢሮ የት ነው የሚገኘው,shops_locations,am
+የቅርንጫፍ ቢሮ መክፈቻ ሰዓት,shops_locations,am
+የቴሌ ሱቅ አድራሻ,shops_locations,am
+የስራ ሰዓታት መረጃ,shops_locations,am

@@ -24,12 +24,13 @@ import {
 
 // ─── FusionPBX / SIP configuration ───────────────────────────────────────────
 // Server IP is read from the VITE_SIP_SERVER_IP env variable (set in .env).
-// To change the FusionPBX server address, update .env only — do not edit here.
-const _SIP_IP = import.meta.env.VITE_SIP_SERVER_IP ?? "10.43.240.164";
+const _SIP_IP = import.meta.env.VITE_SIP_SERVER_IP ?? "192.168.1.9";
+const isHttps = typeof window !== "undefined" && window.location.protocol === "https:";
+const _host = typeof window !== "undefined" && window.location.host ? window.location.host : "192.168.1.5:5173";
 
 export const SIP_CONFIG = {
-  /** WebSocket URI — FusionPBX WS default port */
-  wsServer: `ws://${_SIP_IP}:5066`,
+  /** WebSocket URI — uses FastAPI relay on HTTPS, direct WS on HTTP */
+  wsServer: isHttps ? `wss://${_host}/api/sip-relay` : `ws://${_SIP_IP}:5066`,
   /** SIP domain — must match the FusionPBX domain */
   domain: _SIP_IP,
   /** Low-privilege extension dedicated to this widget (ivr-caller) */
@@ -37,11 +38,11 @@ export const SIP_CONFIG = {
   password: "abc123",
   displayName: "Visual IVR",
   /** Extension to dial when "Speak with Agent" is pressed */
-  targetExtension: "1001",
+  targetExtension: "1002",
   /** Ring timeout in seconds before auto-cancel */
   ringTimeout: 30,
   /** Pre-flight WS probe timeout in ms */
-  preflightTimeoutMs: 4000,
+  preflightTimeoutMs: 6000,
 };
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -263,6 +264,7 @@ export function useSipCall() {
 
   // ── Full teardown ─────────────────────────────────────────────────────────
   const teardown = useCallback(async (nextPhase = CallPhase.ENDED) => {
+    updatePhase(nextPhase);
     stopRingTimer();
     stopElapsedTimer();
 
@@ -303,7 +305,6 @@ export function useSipCall() {
     releaseLocalStream();
     setElapsed(0);
     setMuted(false);
-    updatePhase(nextPhase);
   }, [stopRingTimer, stopElapsedTimer, releaseLocalStream, updatePhase]);
 
   // ── Attach remote RTP audio ───────────────────────────────────────────────
@@ -373,13 +374,18 @@ export function useSipCall() {
     updatePhase(CallPhase.REQUESTING_MIC);
     let localStream;
     try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        throw new Error(
+          "WebRTC in-browser calling requires HTTPS. On mobile Wi-Fi (HTTP), please tap 'Call Agent Directly' to connect instantly via your phone dialer."
+        );
+      }
       localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
       localStreamRef.current = localStream;
     } catch (err) {
       const msg =
         err.name === "NotAllowedError" || err.name === "PermissionDeniedError"
-          ? "Microphone access was denied. Click the 🔒 icon in the browser address bar, allow microphone, then retry."
-          : `Could not access microphone: ${err.message}`;
+          ? "Microphone access was denied. Please allow microphone permission in your browser settings."
+          : (err.message || "Could not access microphone.");
       setErrorMsg(msg);
       updatePhase(CallPhase.ERROR);
       return;
@@ -462,28 +468,51 @@ export function useSipCall() {
       registererRef.current = registerer;
 
       await new Promise((resolve, reject) => {
-        const timeout = setTimeout(
-          () => reject(new Error("SIP REGISTER timed out after 10 s")),
-          10000
-        );
-        registerer.stateChange.addListener((state) => {
+        let registerAttempted = false;
+
+        const timeout = setTimeout(() => {
+          registerer.stateChange.removeListener(stateListener);
+          reject(new Error(
+            "SIP REGISTER timed out.\n\nPossible causes:\n" +
+            "• Extension 1099 password is wrong in FusionPBX\n" +
+            "• Extension 1099 does not exist in FusionPBX\n" +
+            "• FusionPBX is blocking the registration"
+          ));
+        }, 10000);
+
+        const stateListener = (state) => {
           console.debug("[SIP Registerer] state →", state);
           if (state === RegistererState.Registered) {
             clearTimeout(timeout);
+            registerer.stateChange.removeListener(stateListener);
             resolve();
-          } else if (
-            state === RegistererState.Unregistered ||
-            state === RegistererState.Terminated
-          ) {
+          } else if (state === RegistererState.Terminated) {
             clearTimeout(timeout);
+            registerer.stateChange.removeListener(stateListener);
             reject(new Error(
-              `Registration rejected (state: ${state}). ` +
-              `Check that extension ${SIP_CONFIG.extension} exists in FusionPBX ` +
-              `with the correct password and that the ivr-caller account is enabled.`
+              "Registration was rejected by the server (Terminated).\n" +
+              "Check extension 1099 exists in FusionPBX with password: abc123"
+            ));
+          } else if (state === RegistererState.Unregistered && registerAttempted) {
+            // Fired AFTER we sent REGISTER → means auth failed (wrong password / 403)
+            clearTimeout(timeout);
+            registerer.stateChange.removeListener(stateListener);
+            reject(new Error(
+              "SIP authentication failed for extension 1099.\n\n" +
+              "The password in FusionPBX for extension 1099 does not match.\n\n" +
+              "Fix: In FusionPBX → Accounts → Extensions → Edit 1099 → " +
+              "set Password to: abc123 → Save → Reload"
             ));
           }
+        };
+
+        registerer.stateChange.addListener(stateListener);
+        registerAttempted = true;
+        registerer.register().catch((err) => {
+          clearTimeout(timeout);
+          registerer.stateChange.removeListener(stateListener);
+          reject(err);
         });
-        registerer.register().catch(reject);
       });
     } catch (err) {
       console.error("[SIP Registerer] Failed:", err);
@@ -525,7 +554,7 @@ export function useSipCall() {
           `Extension ${SIP_CONFIG.targetExtension} did not answer within ${SIP_CONFIG.ringTimeout} seconds.` +
           `\n\nPossible causes:` +
           `\n• The softphone for ext ${SIP_CONFIG.targetExtension} is not open / registered` +
-          `\n• The softphone is registered to the OLD server (192.168.0.114) — update it to ${SIP_CONFIG.domain}` +
+          `\n• The softphone is registered to the OLD server (192.168.1.10) — update it to ${SIP_CONFIG.domain}` +
           `\n• A FusionPBX dialplan is routing the call elsewhere`
         );
         await teardown(CallPhase.ERROR);
@@ -587,7 +616,7 @@ export function useSipCall() {
               `Extension ${SIP_CONFIG.targetExtension} rejected the call or is not reachable.${reasonHint}` +
               `\n\nCommon causes:` +
               `\n• Extension 1001 softphone is not registered to ${SIP_CONFIG.domain}` +
-              `\n• The softphone is still pointing to the old server IP (192.168.0.114)` +
+              `\n• The softphone is still pointing to the old server IP (192.168.1.10)` +
               `\n• Extension 1001 does not exist on FusionPBX` +
               `\n• A FusionPBX dialplan or ACL is blocking the call`
             );

@@ -43,7 +43,17 @@ def test_session_lifecycle(client):
     act_data = resp.json()
     assert act_data["action_type"] == "connect_agent"
     assert act_data["result"]["type"] == "tel"
-    assert act_data["result"]["href"] == "tel:8000"
+    # 4. Telephony Webhook Trigger (FusionPBX / FreeSWITCH)
+    resp = client.post(
+        "/api/sessions/trigger-call-ivr",
+        json={"caller_phone": "+251911223344", "destination_number": "8000"}
+    )
+    assert resp.status_code == 200
+    trig_data = resp.json()
+    assert trig_data["success"] is True
+    assert trig_data["caller_phone"] == "+251911223344"
+    assert "ivr_url" in trig_data
+    assert "session_id" in trig_data
 
 def test_admin_authentication_and_crud(client):
     # Try admin listing without token (should fail oauth2)

@@ -21,6 +21,12 @@ const VolumeIcon = () => (
   </svg>
 );
 
+const StopIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+    <rect x="4" y="4" width="16" height="16" rx="2"/>
+  </svg>
+);
+
 const RefreshIcon = () => (
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="23 4 23 10 17 10"/>
@@ -60,7 +66,7 @@ const PhoneCallIcon = () => (
 const speak = (text, lang = "en") => {
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = lang === "am" ? "am-ET" : lang === "es" ? "es-ES" : "en-US";
+  u.lang = lang === "am" ? "am-ET" : "en-US";
   u.rate = 0.95;
   window.speechSynthesis.speak(u);
 };
@@ -75,7 +81,7 @@ const getTag = (actionType) => {
 };
 
 const MenuScreen = () => {
-  const { currentNode, selectNode, loading, error, actionState, history, goBack, restartSession } = useSession();
+  const { currentNode, selectNode, loading, error, actionState, history, goBack, restartSession, switchLanguageMenu, speakTTS, stopAudio, isAudioPlaying } = useSession();
   const { locale, setLocale } = useLanguage();
   const [chatOpen, setChatOpen] = useState(false);
   const [speakOpen, setSpeakOpen] = useState(false);
@@ -96,6 +102,7 @@ const MenuScreen = () => {
   }, [currentNode, actionState, history, chatOpen]);
 
   const isEn = locale !== "am";
+  const isRoot = history.length === 0 && !actionState;
   const label   = currentNode ? (currentNode.labels?.[locale]      || currentNode.labels?.en      || "") : "";
   const prompt  = currentNode ? (currentNode.prompt_texts?.[locale] || currentNode.prompt_texts?.en || "") : "";
   const children = currentNode?.children || [];
@@ -120,8 +127,8 @@ const MenuScreen = () => {
   if (error) return (
     <div className="app-shell">
       <div className="ivr-header">
-        <div className="header-logo"><HeadsetIcon /></div>
-        <span className="header-title">Visual IVR</span>
+        <div className="header-logo"><img src="/skyservice-icon.png" alt="Skyservice" style={{ width: "22px", height: "auto" }} /></div>
+        <span className="header-title">Skyservice • Visual IVR</span>
       </div>
       <div className="full-center" style={{ padding: "32px 16px" }}>
         <div className="error-icon" style={{ fontSize: "2rem" }}>⚠️</div>
@@ -144,8 +151,8 @@ const MenuScreen = () => {
   if (!currentNode) return (
     <div className="app-shell">
       <div className="ivr-header">
-        <div className="header-logo"><HeadsetIcon /></div>
-        <span className="header-title">Visual IVR</span>
+        <div className="header-logo"><img src="/skyservice-icon.png" alt="Skyservice" style={{ width: "22px", height: "auto" }} /></div>
+        <span className="header-title">Skyservice • Visual IVR</span>
       </div>
       <div className="ivr-content" style={{ padding: "16px" }}>
         <div className="prompt-card skeleton-card skeleton-shimmer" style={{ height: "64px", marginBottom: "14px" }} />
@@ -157,6 +164,31 @@ const MenuScreen = () => {
   return (
     <>
       <div className="app-shell">
+        {/* ── MOBILE LANGUAGE TOP BAR ──────────────────────────────── */}
+        <div className="mobile-lang-bar" aria-label="Language selector">
+          <span className="mobile-lang-bar-label">
+            {isEn ? "Language" : "ቋንቋ"}
+          </span>
+          <div className="mobile-lang-pills">
+            <button
+              className={`mobile-lang-pill ${locale === "en" ? "active" : ""}`}
+              onClick={() => { setLocale("en"); switchLanguageMenu("en"); }}
+              aria-label="Switch to English"
+              aria-pressed={locale === "en"}
+            >
+              EN
+            </button>
+            <button
+              className={`mobile-lang-pill ${locale === "am" ? "active" : ""}`}
+              onClick={() => { setLocale("am"); switchLanguageMenu("am"); }}
+              aria-label="ወደ አማርኛ ቀይር"
+              aria-pressed={locale === "am"}
+            >
+              AM
+            </button>
+          </div>
+        </div>
+
         {/* ── HEADER ─────────────────────────────────────────────── */}
         <div className="ivr-header">
           <button
@@ -174,13 +206,13 @@ const MenuScreen = () => {
           </button>
 
           <div className="header-logo">
-            <HeadsetIcon />
+            <img src="/skyservice-icon.png" alt="Skyservice" style={{ width: "22px", height: "auto" }} />
           </div>
 
           <div className="header-title">
-            {label || "Visual IVR"}
+            {label || "Skyservice"}
             <span className="header-subtitle">
-              {isEn ? "Visual Call System" : "የቪዥዋል ጥሪ ስርዓት"}
+              {isEn ? "Ethio Telecom Visual Call System" : "የኢትዮ ቴሌኮም ቪዥዋል ጥሪ ስርዓት"}
             </span>
           </div>
 
@@ -223,15 +255,17 @@ const MenuScreen = () => {
             <>
               {/* Prompt card */}
               <div className="prompt-card" aria-live="polite" role="status">
-                <button
-                  className="speak-btn prompt-speak-btn"
-                  onClick={() => speak(prompt, locale)}
-                  aria-label={isEn ? "Hear prompt" : "መመሪያውን አዳምጥ"}
-                  title={isEn ? "Hear prompt" : "መመሪያውን አዳምጥ"}
-                  style={{ flexShrink: 0, marginTop: "2px" }}
-                >
-                  <VolumeIcon />
-                </button>
+                {isRoot && (
+                  <button
+                    className={`speak-btn prompt-speak-btn ${isAudioPlaying ? "speak-btn--playing" : ""}`}
+                    onClick={() => isAudioPlaying ? stopAudio() : speakTTS(prompt, locale)}
+                    aria-label={isAudioPlaying ? (isEn ? "Stop audio" : "ድምጽ አቁም") : (isEn ? "Hear prompt" : "መመሪያውን አዳምጥ")}
+                    title={isAudioPlaying ? (isEn ? "Stop audio" : "ድምጽ አቁም") : (isEn ? "Hear prompt" : "መመሪያውን አዳምጥ")}
+                    style={{ flexShrink: 0, marginTop: "2px" }}
+                  >
+                    {isAudioPlaying ? <StopIcon /> : <VolumeIcon />}
+                  </button>
+                )}
                 <p className="prompt-text">{prompt}</p>
               </div>
 
@@ -265,15 +299,17 @@ const MenuScreen = () => {
                           {tag && (
                             <span className={`option-tag ${tag.cls}`}>{tag.label}</span>
                           )}
-                          <button
-                            className="speak-btn"
-                            onClick={(e) => { e.stopPropagation(); speak(childLabel, locale); }}
-                            aria-label={`Hear: ${childLabel}`}
-                            tabIndex={-1}
-                            title={isEn ? "Hear this option" : "ይህን አማራጭ ያዳምጡ"}
-                          >
-                            <VolumeIcon />
-                          </button>
+                          {isRoot && (
+                            <button
+                              className="speak-btn"
+                              onClick={(e) => { e.stopPropagation(); isAudioPlaying ? stopAudio() : speakTTS(childLabel, locale); }}
+                              aria-label={isAudioPlaying ? "Stop audio" : `Hear: ${childLabel}`}
+                              tabIndex={-1}
+                              title={isAudioPlaying ? (isEn ? "Stop audio" : "ድምጽ አቁም") : (isEn ? "Hear this option" : "ይህን አማራጭ ያዳምጡ")}
+                            >
+                              {isAudioPlaying ? <StopIcon /> : <VolumeIcon />}
+                            </button>
+                          )}
                           <span className="option-arrow"><ChevronRight /></span>
                         </div>
                       </div>
@@ -293,10 +329,10 @@ const MenuScreen = () => {
               <button
                 className="chat-strip"
                 onClick={() => setChatOpen(true)}
-                aria-label="Open chat with an agent"
+                aria-label="Open chat with AI Assistant"
               >
                 <ChatIcon />
-                {isEn ? "Chat with a Support Agent" : "ከአገልግሎት ወኪል ጋር ይወያዩ"}
+                {isEn ? "Chat with AI Assistant" : "ከ AI ድጋፍ ሰጪ ጋር ይወያዩ"}
               </button>
 
               {/* Secondary CTA — Speak with an Agent */}
@@ -311,20 +347,15 @@ const MenuScreen = () => {
             </>
           )}
         </div>
-
-        {/* ── FOOTER ──────────────────────────────────────────────── */}
-        <div className="ivr-footer">
-          <span>
-            {isEn ? "Keys [1–9] navigate · Backspace go back" : "ቁልፎች [1-9] ለማሰስ · Backspace ለመመለስ"}
-          </span>
-          <span style={{ color: "var(--text-muted)", fontWeight: 500 }}>
-            Visual IVR
-          </span>
-        </div>
       </div>
 
       {/* ── CHAT OVERLAY ─────────────────────────────────────────── */}
-      {chatOpen && <ChatWidget onClose={() => setChatOpen(false)} />}
+      {chatOpen && (
+        <ChatWidget
+          onClose={() => setChatOpen(false)}
+          onOpenSpeakModal={() => setSpeakOpen(true)}
+        />
+      )}
 
       {/* ── SPEAK WITH AGENT MODAL ───────────────────────────────── */}
       {speakOpen && <SpeakWithAgentModal onClose={() => setSpeakOpen(false)} />}

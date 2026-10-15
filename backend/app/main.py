@@ -12,7 +12,7 @@ from slowapi.util import get_remote_address
 
 from app.config import get_settings
 from app.database import Base, engine
-from app.routers import admin, menu, sessions, sidebar, content
+from app.routers import admin, content, menu, sessions, sidebar, translate, tts, sip_relay, chat
 
 # ---------------------------------------------------------------------------
 # Structured logging setup
@@ -80,7 +80,7 @@ def create_app() -> FastAPI:
     # CORS
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],  # restrict in production via env
+        allow_origin_regex=r"^https?://.*",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -92,6 +92,10 @@ def create_app() -> FastAPI:
     app.include_router(admin.router)
     app.include_router(sidebar.router)
     app.include_router(content.router)
+    app.include_router(translate.router)
+    app.include_router(tts.router)
+    app.include_router(sip_relay.router)
+    app.include_router(chat.router)
 
     # Static media files (audio uploads)
     os.makedirs(settings.MEDIA_DIR, exist_ok=True)
@@ -162,6 +166,20 @@ def create_app() -> FastAPI:
   </nav>
 </body>
 </html>""")
+
+    @app.post("/api/logs", include_in_schema=False)
+    async def log_client_message(request: Request):
+        body = await request.json()
+        level = body.get("level", "info")
+        msg = body.get("message", "")
+        log.warning("frontend_client_log", client_level=level, msg=msg)
+        # Append to log file
+        try:
+            with open("client_debug.log", "a", encoding="utf-8") as f:
+                f.write(f"[{level.upper()}] {msg}\n")
+        except Exception:
+            pass
+        return {"status": "ok"}
 
     return app
 

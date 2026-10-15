@@ -174,3 +174,36 @@ class AudioUploadResponse(BaseModel):
     node_id: int
     audio_url: str
     message: str
+
+
+# ---------------------------------------------------------------------------
+# AI Chat & Decision Box schemas
+# ---------------------------------------------------------------------------
+
+
+class ChatMessage(BaseModel):
+    role: str = "user"  # "user" | "model" | "assistant"
+    text: str
+
+
+class ChatAction(BaseModel):
+    action_type: str = "navigate"  # "navigate" | "connect_agent" | "callback" | "info"
+    target: Optional[str] = None
+    node_id: Optional[int] = None
+    label: str
+
+
+class ChatRequest(BaseModel):
+    message: str
+    language: str = "en"
+    session_id: Optional[str] = None
+    current_node_id: Optional[int] = None
+    history: list[ChatMessage] = []
+
+
+class ChatResponse(BaseModel):
+    reply: str
+    suggested_action: Optional[ChatAction] = None
+    quick_replies: list[str] = []
+    model: str = "gemini-3.5-flash-lite"
+

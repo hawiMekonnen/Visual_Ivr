@@ -89,10 +89,10 @@ const SiteFooterFull = () => {
 
       {/* Bottom Bar: Copyright + Social Icons */}
       <div className="footer-full-bottom">
-        <div className="footer-bottom-left">
-          <span>&copy; {year} Visual IVR Systems Ltd. All rights reserved.</span>
+        <div className="footer-bottom-left" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <img src="/skyservice-horizontal-white.png" alt="Skyservice" style={{ height: "24px", width: "auto" }} />
           <span className="footer-powered-sep">|</span>
-          <span className="footer-powered-text">{isEn ? "Powered by Visual IVR" : "በቪዥዋል IVR የተጎላበተ"}</span>
+          <span>&copy; {year} Ethio Telecom • Skyservice Customer & Agent Experience</span>
         </div>
         <div className="footer-social-icons">
           <a href="#twitter" aria-label="Twitter Account" className="footer-social-link"><TwitterIcon /></a>

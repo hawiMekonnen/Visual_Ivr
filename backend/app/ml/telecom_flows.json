@@ -1,0 +1,396 @@
+{
+  "root_node": "main_menu",
+  "global_handlers": {
+    "agent_transfer": "flow_agent_transfer",
+    "main_menu": "main_menu",
+    "exit": "flow_exit"
+  },
+  "nodes": {
+    "main_menu": {
+      "id": "main_menu",
+      "type": "menu",
+      "title": "Main Contact Center Menu",
+      "prompt_en": "Welcome to Telecom Customer Support. How can I assist you today? You can ask about airtime, Telebirr, internet packages, SIM services, or speak with an agent.",
+      "prompt_am": "እንኳን ወደ ቴሌኮም የደንበኞች ድጋፍ በደህና መጡ። በምን ልርዳዎት? ስለ ካርድ መሙላት፣ ቴሌብር፣ የኢንተርኔት ፓኬጆች፣ ሲም ካርድ መጠየቅ ወይም ወኪል ማነጋገር ይችላሉ።",
+      "transitions": {
+        "balance_recharge": "flow_airtime",
+        "internet_packages": "flow_internet",
+        "telebirr_services": "flow_telebirr",
+        "sim_puk_services": "flow_sim_puk",
+        "broadband_fiber": "flow_broadband",
+        "network_complaint": "flow_network",
+        "shops_locations": "flow_shops",
+        "agent_transfer": "flow_agent_transfer",
+        "boss_baby": "flow_node_7164",
+        "new": "flow_node_295"
+      },
+      "quick_replies_en": [
+        "Airtime & Balance",
+        "Internet Packages",
+        "Telebirr",
+        "Speak with Agent"
+      ],
+      "quick_replies_am": [
+        "ቀሪ ሂሳብ እና ካርድ",
+        "የኢንተርኔት ፓኬጅ",
+        "ቴሌብር",
+        "ከወኪል ጋር ይነጋገሩ"
+      ],
+      "action": {
+        "action_type": "navigate",
+        "target": "Main Menu",
+        "label": "Main Services"
+      },
+      "max_nomatch": 2,
+      "position": {
+        "x": 650,
+        "y": 50
+      }
+    },
+    "flow_airtime": {
+      "id": "flow_airtime",
+      "type": "subflow",
+      "title": "Airtime & Balance Flow",
+      "prompt_en": "For Airtime & Balance: To check your balance dial *804#. To recharge a scratch voucher dial *805*PIN# or use Telebirr.",
+      "prompt_am": "ለቀሪ ሂሳብ እና ካርድ፦ ቀሪ ሂሳብዎን በ *804# ማየት ይችላሉ። የካርድ ቫውቸር ለመሙላት በ *805*ሚስጥር_ቁጥር# ወይም በቴሌብር ይጠቀሙ።",
+      "transitions": {
+        "balance_recharge": "flow_airtime",
+        "telebirr_services": "flow_telebirr",
+        "agent_transfer": "flow_agent_transfer",
+        "main_menu": "main_menu"
+      },
+      "quick_replies_en": [
+        "Recharge Voucher",
+        "Check Balance (*804#)",
+        "Main Menu",
+        "Speak with Agent"
+      ],
+      "quick_replies_am": [
+        "ካርድ መሙላት",
+        "ቀሪ ሂሳብ (*804#)",
+        "ዋና ምናሌ",
+        "ከወኪል ጋር ይነጋገሩ"
+      ],
+      "action": {
+        "action_type": "navigate",
+        "target": "Billing & Payments",
+        "label": "Airtime & Balance Menu"
+      },
+      "max_nomatch": 2,
+      "position": {
+        "x": 50,
+        "y": 300
+      }
+    },
+    "flow_internet": {
+      "id": "flow_internet",
+      "type": "subflow",
+      "title": "Internet Packages Flow",
+      "prompt_en": "You can explore daily, weekly, monthly, and unlimited 4G/5G data bundles by dialing *999# (Ethio Gebeta) or through our mobile packages menu.",
+      "prompt_am": "የቀን፣ የሳምንት፣ የወር እና ያልተገደበ የ 4G/5G ዳታ ጥቅሎችን በ *999# (ኢትዮ ገበታ) ወይም በፓኬጅ ምናሌ መግዛት ይችላሉ።",
+      "transitions": {
+        "internet_packages": "flow_internet",
+        "telebirr_services": "flow_telebirr",
+        "agent_transfer": "flow_agent_transfer",
+        "main_menu": "main_menu"
+      },
+      "quick_replies_en": [
+        "Monthly 4G Packs",
+        "Unlimited Data",
+        "Main Menu",
+        "Speak with Agent"
+      ],
+      "quick_replies_am": [
+        "ወርሃዊ 4G ዳታ",
+        "ያልተገደበ ኢንተርኔት",
+        "ዋና ምናሌ",
+        "ከወኪል ጋር ይነጋገሩ"
+      ],
+      "action": {
+        "action_type": "navigate",
+        "target": "Internet Packages",
+        "label": "Explore Internet Packages"
+      },
+      "max_nomatch": 2,
+      "position": {
+        "x": 450,
+        "y": 300
+      }
+    },
+    "flow_telebirr": {
+      "id": "flow_telebirr",
+      "type": "subflow",
+      "title": "Telebirr Financial Services Flow",
+      "prompt_en": "Telebirr Services: Dial *127# or use the Telebirr App to send money, buy airtime, and pay electricity/water bills. To reset your PIN, select 'Forgot PIN' in *127#.",
+      "prompt_am": "የቴሌብር አገልግሎት፦ በ *127# ወይም በቴሌብር መተግበሪያ ገንዘብ መላክ፣ ካርድ መግዛት እና የመብራትና ውሃ ክፍያ መፈጸም ይችላሉ። ፒን ለመቀየር በ *127# 'ሚስጥር ቃል ረሳሁ' ይምረጡ።",
+      "transitions": {
+        "telebirr_services": "flow_telebirr",
+        "balance_recharge": "flow_airtime",
+        "agent_transfer": "flow_agent_transfer",
+        "main_menu": "main_menu"
+      },
+      "quick_replies_en": [
+        "Reset Telebirr PIN",
+        "Pay Utility Bill",
+        "Main Menu",
+        "Speak with Agent"
+      ],
+      "quick_replies_am": [
+        "የቴሌብር ፒን ቀይር",
+        "የመብራት/ውሃ ክፍያ",
+        "ዋና ምናሌ",
+        "ከወኪል ጋር ይነጋገሩ"
+      ],
+      "action": {
+        "action_type": "navigate",
+        "target": "Billing & Payments",
+        "label": "Telebirr & Payments"
+      },
+      "max_nomatch": 2,
+      "position": {
+        "x": 850,
+        "y": 300
+      }
+    },
+    "flow_sim_puk": {
+      "id": "flow_sim_puk",
+      "type": "subflow",
+      "title": "SIM & PUK Services Flow",
+      "prompt_en": "To unblock your SIM, enter the 8-digit PUK code from your SIM jacket. For lost SIM replacement or eSIM, visit any service center with your valid ID.",
+      "prompt_am": "የተዘጋ ሲም ለመክፈት በሲም ካርድ ፓኬት ላይ ያለውን ባለ 8 አሃዝ PUK ቁጥር ያስገቡ። የጠፋ ሲም ለመቀየር ወይም eSIM ለመውሰድ የታደሰ መታወቂያ በመያዝ ቅርንጫፍ ይጎብኙ።",
+      "transitions": {
+        "sim_puk_services": "flow_sim_puk",
+        "shops_locations": "flow_shops",
+        "agent_transfer": "flow_agent_transfer",
+        "main_menu": "main_menu"
+      },
+      "quick_replies_en": [
+        "PUK Unblock Guide",
+        "Find Branch",
+        "Main Menu",
+        "Speak with Agent"
+      ],
+      "quick_replies_am": [
+        "የ PUK መመሪያ",
+        "ቅርንጫፍ ፈልግ",
+        "ዋና ምናሌ",
+        "ከወኪል ጋር ይነጋገሩ"
+      ],
+      "action": {
+        "action_type": "info",
+        "target": "PUK & SIM Service Guide",
+        "label": "View SIM & PUK Guide"
+      },
+      "max_nomatch": 2,
+      "position": {
+        "x": 1250,
+        "y": 300
+      }
+    },
+    "flow_broadband": {
+      "id": "flow_broadband",
+      "type": "subflow",
+      "title": "Broadband & Fiber Flow",
+      "prompt_en": "For Home Fiber Wi-Fi support: Check that your router power and PON lights are green. If red, our technicians will log a ticket or transfer you to support.",
+      "prompt_am": "ለቤት ፋይበር ዋይፋይ ድጋፍ፦ የራውተርዎ ፓወር እና PON መብራቶች አረንጓዴ መሆናቸውን ያረጋግጡ። ቀይ ከሆነ የቴክኒክ ድጋፍ ቡድናችን የጥገና ጥያቄ ይመዘግብልዎታል።",
+      "transitions": {
+        "broadband_fiber": "flow_broadband",
+        "agent_transfer": "flow_agent_transfer",
+        "main_menu": "main_menu"
+      },
+      "quick_replies_en": [
+        "Fiber Outage Report",
+        "Pay Broadband Bill",
+        "Speak with Agent"
+      ],
+      "quick_replies_am": [
+        "የፋይበር ብልሽት ሪፖርት",
+        "የቤት ክፍያ",
+        "ከወኪል ጋር ይነጋገሩ"
+      ],
+      "action": {
+        "action_type": "navigate",
+        "target": "Technical Support",
+        "label": "Broadband Support"
+      },
+      "max_nomatch": 2,
+      "position": {
+        "x": 150,
+        "y": 560
+      }
+    },
+    "flow_network": {
+      "id": "flow_network",
+      "type": "subflow",
+      "title": "Network Complaint Flow",
+      "prompt_en": "If experiencing network dropouts or slow speed, please restart your phone or toggle Airplane mode. We can also transfer you to a network engineer.",
+      "prompt_am": "የኔትወርክ መቆራረጥ ወይም መዘግየት ካጋጠመዎት እባክዎ ስልክዎን ያጥፉና ያብሩ ወይም ኤርፕሌን ሞድ ይጠቀሙ። እንዲሁም ወደ ቴክኒክ ድጋፍ ወኪል ማስተላለፍ እንችላለን።",
+      "transitions": {
+        "network_complaint": "flow_network",
+        "agent_transfer": "flow_agent_transfer",
+        "main_menu": "main_menu"
+      },
+      "quick_replies_en": [
+        "Report Outage",
+        "Call Network Agent",
+        "Main Menu"
+      ],
+      "quick_replies_am": [
+        "ችግር ሪፖርት አድርግ",
+        "ለወኪል ደውል",
+        "ዋና ምናሌ"
+      ],
+      "action": {
+        "action_type": "connect_agent",
+        "target": "1002",
+        "label": "Call Network Support"
+      },
+      "max_nomatch": 2,
+      "position": {
+        "x": 550,
+        "y": 560
+      }
+    },
+    "flow_shops": {
+      "id": "flow_shops",
+      "type": "info",
+      "title": "Service Centers & Hours",
+      "prompt_en": "Customer service center shops are open Monday through Saturday from 8:00 AM to 6:00 PM. Digital IVR & Telebirr operate 24/7.",
+      "prompt_am": "የአገልግሎት መስጫ ማዕከላችን ከሰኞ እስከ ቅዳሜ ከጠዋቱ 2:00 እስከ ማታ 12:00 ክፍት ናቸው። ዲጂታል IVR እና ቴሌብር 24/7 ይሰራሉ።",
+      "transitions": {
+        "main_menu": "main_menu",
+        "agent_transfer": "flow_agent_transfer"
+      },
+      "quick_replies_en": [
+        "Main Menu",
+        "Speak with Agent"
+      ],
+      "quick_replies_am": [
+        "ዋና ምናሌ",
+        "ከወኪል ጋር ይነጋገሩ"
+      ],
+      "action": {
+        "action_type": "info",
+        "target": "Mon-Sat 8am-6pm | Nationwide Service Centers",
+        "label": "View Hours & Locations"
+      },
+      "max_nomatch": 2,
+      "position": {
+        "x": 950,
+        "y": 560
+      }
+    },
+    "flow_agent_transfer": {
+      "id": "flow_agent_transfer",
+      "type": "transfer",
+      "title": "Live Agent Transfer",
+      "prompt_en": "Transferring your call directly to a live customer service representative. Please stay on the line.",
+      "prompt_am": "ጥሪዎን በቀጥታ ወደ ደንበኞች አገልግሎት ወኪል እያስተላለፍን ነው። እባክዎ መስመር ላይ ይቆዩ።",
+      "transitions": {
+        "main_menu": "main_menu"
+      },
+      "quick_replies_en": [
+        "Call Live Agent (1002)",
+        "Request Callback",
+        "Main Menu"
+      ],
+      "quick_replies_am": [
+        "ለወኪል ይደውሉ (1002)",
+        "መልሶ መደወል ይጠይቁ",
+        "ዋና ምናሌ"
+      ],
+      "action": {
+        "action_type": "connect_agent",
+        "target": "1002",
+        "label": "Speak with Live Agent"
+      },
+      "max_nomatch": 1,
+      "position": {
+        "x": 400,
+        "y": 800
+      }
+    },
+    "flow_exit": {
+      "id": "flow_exit",
+      "type": "exit",
+      "title": "Session Exit / EndApp",
+      "prompt_en": "Thank you for using our customer care service. Have a wonderful day!",
+      "prompt_am": "የደንበኞች አገልግሎታችንን ስለተጠቀሙ እናመሰግናለን። መልካም ቀን ይሁንልዎ!",
+      "transitions": {
+        "main_menu": "main_menu"
+      },
+      "quick_replies_en": [
+        "Start Over (Main Menu)"
+      ],
+      "quick_replies_am": [
+        "እንደገና ጀምር (ዋና ምናሌ)"
+      ],
+      "action": {
+        "action_type": "info",
+        "target": "Session Finished",
+        "label": "Start Over"
+      },
+      "max_nomatch": 1,
+      "position": {
+        "x": 800,
+        "y": 800
+      }
+    },
+    "flow_node_7164": {
+      "id": "flow_node_7164",
+      "type": "info",
+      "title": "boss baby",
+      "prompt_en": "it is an animated movie",
+      "prompt_am": "ይህ አኒሜሽን ፊልም ነው",
+      "transitions": {
+        "main_menu": "main_menu"
+      },
+      "quick_replies_en": [
+        "Main Menu",
+        "Speak with Agent"
+      ],
+      "quick_replies_am": [
+        "ዋና ምናሌ",
+        "ከወኪል ጋር ተነጋገር"
+      ],
+      "action": {
+        "action_type": "navigate",
+        "target": "Main Menu",
+        "label": "Return Home"
+      },
+      "max_nomatch": 2,
+      "position": {
+        "x": -276.2907900783779,
+        "y": 307.4915753340468
+      }
+    },
+    "flow_node_295": {
+      "id": "flow_node_295",
+      "type": "subflow",
+      "title": "New Dialog Step",
+      "prompt_en": "Please choose an option to continue.",
+      "prompt_am": "እባክዎ ለመቀጠል አማራጭ ይምረጡ።",
+      "transitions": {
+        "main_menu": "main_menu"
+      },
+      "quick_replies_en": [
+        "Main Menu",
+        "Speak with Agent"
+      ],
+      "quick_replies_am": [
+        "ዋና ምናሌ",
+        "ከወኪል ጋር ተነጋገር"
+      ],
+      "action": {
+        "action_type": "navigate",
+        "target": "Main Menu",
+        "label": "Return Home"
+      },
+      "max_nomatch": 2,
+      "position": {
+        "x": 1566.247515908846,
+        "y": 305.3670636363726
+      }
+    }
+  }
+}
